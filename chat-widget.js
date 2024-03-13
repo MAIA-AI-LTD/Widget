@@ -651,7 +651,6 @@ function chatWidget(){
   this.webSocketMessageHandler = ()=>{
     this.ws.onmessage = (e)=>{
       const response = JSON.parse(JSON.parse(e.data))
-      console.log(response)
       if(response.action === 'INIT'){
 
         if(localStorage.getItem('session_id')){
