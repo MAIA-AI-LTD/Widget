@@ -350,6 +350,7 @@ function chatWidget(){
       padding: 2px 8px;
       border-radius: 24px;
       column-gap: 4px;
+      text-decoration: none;
     }
 
     .chat-lath-text{
