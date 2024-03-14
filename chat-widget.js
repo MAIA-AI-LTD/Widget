@@ -741,3 +741,4 @@ function chatWidget(){
 
 const chat = new chatWidget()
 chat.openWebSoket('api.maia.work')
+console.log('MAIA-CHAT')
