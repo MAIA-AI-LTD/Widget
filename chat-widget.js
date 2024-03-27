@@ -157,12 +157,14 @@ function chatWidget(){
       border-radius: 6px;
     }
     .chat-input-container{
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
       border-top: 1px solid var(--border-border-gray-200, #E5E7EB);
       border-top-width: 1px;
       border-color: rgba(229,231,235,1);
       padding: 16px;
       background: #FFF;
-      position: relative;
     }
     .chat-input-container-inner{
       display: flex;
@@ -342,13 +344,7 @@ function chatWidget(){
     .chat-lath{
       display: flex;
       align-items: center;
-      position: absolute;
-      top: -32px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #F4F4F6;
-      padding: 2px 8px;
-      border-radius: 24px;
+      align-self: center;
       column-gap: 4px;
       text-decoration: none;
     }
@@ -458,7 +454,7 @@ function chatWidget(){
               </svg>
             </button>
           </div>
-          <a href="https://maia.work/" class="chat-lath">
+          <a href="https://maia.work/" class="chat-lath" target="_blank">
             <div class="chat-lath-text">Работает на</div>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
               <path d="M9.64983 15.9697C13.2766 15.2041 16 11.9653 16 8.08598C16 7.923 15.9952 7.76115 15.9857 7.60056C15.9543 7.83156 15.909 8.05948 15.8494 8.28268C15.2117 10.5925 13.2139 12.5375 11.0186 13.4599C10.1002 13.8416 9.1126 14.0556 8.11912 14.0315C7.52838 14.0214 6.93978 13.9151 6.37509 13.7489C4.47078 13.2182 2.95306 11.7918 2.57385 9.83843C2.33881 8.69225 2.48747 7.4874 3.07331 6.45811C4.29869 4.25507 6.93915 2.81391 9.49857 3.29634C9.94022 3.37224 10.3776 3.49958 10.8079 3.66179C10.431 3.40001 10.0187 3.18004 9.58071 3.00896C6.39819 1.74978 2.28797 4.01929 0.934004 7.02699C0.249478 8.58277 0.250069 9.89558 0.868401 11.4725C1.84679 14.0036 4.64054 15.693 7.28551 16.0279C8.08055 16.1242 8.87488 16.0994 9.64983 15.9697Z" fill="#A9ABBA"/>
@@ -608,9 +604,10 @@ function chatWidget(){
     }
   },
   this.getBotMessage = (message)=>{
+    const parseMessage = globalThis.convertingFunction.parseLinks(message) 
     const bMessage = document.createElement('div')
     bMessage.className = 'flex mb-3 chat-message-bot-container';
-    bMessage.innerHTML = `<div class="chat-message-bot">${message}</div>`;
+    bMessage.innerHTML = `<div class="chat-message-bot">${parseMessage}</div>`;
     return bMessage
   },
   this.getUserMessage = (message)=>{
@@ -626,6 +623,7 @@ function chatWidget(){
     this.scrollWindowToBottom()
   },
   this.reply = (message)=>{
+    this.messageSound.audioPlay()
     const replyElement = this.getBotMessage(message)
     this.chatMessages.appendChild(replyElement);
     this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
@@ -638,8 +636,8 @@ function chatWidget(){
     this.webSocketOpenHandler()
     this.webSocketMessageHandler()    
     this.webSocketCloseHandler()
+    this.websocketClosure()
   },
-
   this.webSocketOpenHandler = ()=>{
     this.ws.onopen = (e)=>{
       this.ws.send(JSON.stringify({
@@ -648,7 +646,6 @@ function chatWidget(){
       }))
     }
   },
-
   this.webSocketMessageHandler = ()=>{
     this.ws.onmessage = (e)=>{
       const response = JSON.parse(JSON.parse(e.data))
@@ -659,8 +656,10 @@ function chatWidget(){
           localStorage.setItem('session_id', response.session_id)
         }
         this.writingDataToConfig(response)
+        
         if(!this.checkDomen()) return false
         this.init()
+        this.messageSound.init()
       }
 
       if(response.action === 'MESSAGE'){
@@ -674,6 +673,11 @@ function chatWidget(){
       this?.chatInput?.setAttribute('disabled', true)
     }
   },
+  this.websocketClosure = () => {
+    document.addEventListener('unload', ()=>{
+      this.ws.close()
+    })
+  }
   this.writingDataToConfig = (rspns)=>{
     this.config = {
       ...this.config,
@@ -736,9 +740,39 @@ function chatWidget(){
       return prints.firstElementChild
     }
   }
+
+  this.messageSound = {
+    init(){
+      this.createAudio()
+    },
+    createAudio(){
+      this.sound = document.createElement('audio')
+      this.sound.src = `https://cabinet.maia.work/static/audio/message_sound.mp3`
+      this.sound.addEventListener('error', ()=>{
+        this.sound = null
+      })
+    },
+    audioPlay(){
+      if(!this.sound) return
+      if(!this.sound.paused){
+        this.sound.pause()
+        this.sound.currentTime = 0;
+      }
+      this.sound.play()
+    }
+  }
+
+  this.convertingFunction = {
+    parseLinks(message){
+      var urlRegex = urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+      return message.replace(urlRegex, function(url) {
+        return '<a href="' + url + '" target="_blank">' + url + '</a>';
+      })
+    }
+  }
 }
 
-
-const chat = new chatWidget()
-chat.openWebSoket('api.maia.work')
-console.log('MAIA-CHAT')
+(function(){
+  const chat = new chatWidget()
+  chat.openWebSoket('api.maia.work')
+})();
