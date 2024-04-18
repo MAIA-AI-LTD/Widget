@@ -17,6 +17,7 @@ function chatWidget(){
     this.textareaAutoHeight()
     this.checkFirstOpening.init()
     this.chatAutoStart.init()
+    this.iconForUnreadMessage.checkNotifLocaleStorage()
   },
 
 
@@ -66,13 +67,29 @@ function chatWidget(){
       background-color: ${this.config?.circle_color || 'gray'};
       animation-name: opacity-emergence;
       animation-duration: .2s;
+      position: relative;
     }
     .chat-bubble svg{
-      width: 40px;
-      height: 40px;
+      width: 48px;
+      height: 48px;
       color: rgba(255,255,255,1);
       display: block;
       vertical-align: middle;
+    }
+    .chat-unread-message-icon{
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20px;
+      min-width: 20px;
+      max-width: 20px;
+      height: 20px;
+      max-height: 20px;
+      min-height: 20px;
+      border-radius: 50%;
+      background-color: #00D35B;
+      animation-name: opacity-emergence;
+      animation-duration: .2s;
     }
     .chat-popup{
       height: 70vh;
@@ -426,6 +443,7 @@ function chatWidget(){
           <path d="M18.2828 0.522731C20.8994 -0.0127422 23.6003 -0.15204 26.304 0.17563C34.2389 1.18032 42.6201 6.24833 45.5553 13.8417C47.4103 18.5725 47.4121 22.511 45.3585 27.1783C41.2966 36.2014 28.9659 43.0099 19.4184 39.2324C18.1044 38.7192 16.8674 38.0592 15.7367 37.2739C17.0277 37.7605 18.3399 38.1426 19.6648 38.3703C27.3431 39.8175 35.2644 35.494 38.9406 28.8849C40.6981 25.7971 41.1441 22.1825 40.4389 18.744C39.3013 12.8837 34.7482 8.6046 29.0352 7.01258C27.3412 6.51402 25.5754 6.19519 23.8031 6.16485C20.8227 6.09256 17.8599 6.73432 15.1048 7.8797C8.5187 10.6467 2.52536 16.4817 0.61222 23.4112C0.36021 24.3548 0.193617 25.3265 0.108591 26.3124C0.036746 25.5509 0 24.779 0 23.9985C0 12.636 7.78824 3.10505 18.2828 0.522731Z" fill="white"/>
           <path d="M20.6106 23.2427C20.6252 23.2045 20.6332 23.1714 20.6339 23.1418C20.6346 23.1173 20.6077 23.1022 20.5866 23.1152C19.6913 23.6858 18.5157 24.0972 17.4705 23.9661C15.5888 23.7298 14.3026 21.7383 15.4207 20.03C15.4928 19.9197 15.6711 19.7079 15.9557 19.3945C16.506 18.7871 16.8663 18.2266 17.0759 17.4355C17.2616 16.7344 17.4362 16.1306 17.6008 15.6227C18.3738 13.2364 20.3187 11.6505 22.8554 11.4027C25.3798 11.1563 27.8656 12.147 29.3847 14.15C30.2356 15.2718 30.5202 16.5291 30.24 17.9225C30.1976 18.1319 30.1265 18.3749 30.0534 18.6251C29.9947 18.8261 29.9346 19.0317 29.8869 19.2281C29.7493 19.798 30.24 20.5286 30.561 21.0012C30.6796 21.1749 30.7407 21.3103 30.7451 21.4069C30.7625 21.7415 30.2616 21.87 29.9437 21.9515C29.9016 21.9623 29.8627 21.9723 29.8287 21.9818C29.7741 21.9969 29.7413 22.051 29.7537 22.1057C29.801 22.319 29.8571 22.5229 29.9211 22.7182C29.943 22.7852 29.9117 22.8471 29.828 22.9033C29.7312 22.9689 29.6387 23.0294 29.5514 23.0849C29.5193 23.1051 29.5121 23.1483 29.5361 23.1779C29.7178 23.398 29.5142 23.5933 29.3493 23.7514C29.3134 23.7859 29.2793 23.8186 29.2515 23.8494C29.2362 23.8659 29.226 23.8875 29.2224 23.9106C29.2115 23.9797 29.2042 24.0527 29.1968 24.1258C29.1824 24.2691 29.168 24.4131 29.127 24.531C28.9421 25.0605 28.5374 25.3285 27.9129 25.335C27.0911 25.3444 26.3836 25.2032 25.6134 25.0324C25.3041 24.9633 25.0835 24.9424 24.9503 24.969C24.4415 25.0713 24.1329 25.6679 23.9378 26.0808C23.5251 26.9547 23.2492 27.8222 23.1109 28.6818C23.028 29.1969 23.183 29.6379 23.5753 30.0046C24.2785 30.661 24.9518 31.3455 25.5945 32.058C26.5444 33.1114 27.4521 34.6345 27.4514 36.0986C27.4514 36.1231 27.4354 36.1447 27.4121 36.1519C27.3036 36.1872 27.1369 36.2305 26.9127 36.2809C25.7838 36.5338 24.681 36.6786 23.603 36.7139C19.0988 36.8602 14.767 35.4833 11.8496 31.942C11.8038 31.8866 11.7659 31.8008 11.7354 31.6834C11.7295 31.661 11.731 31.6387 11.7397 31.6171C12.2704 30.3159 13.0783 29.2423 14.1636 28.3972C14.4373 28.1839 14.8457 27.9267 15.3894 27.6248C15.6272 27.4928 15.852 27.3695 16.0666 27.2518C17.1569 26.6536 17.9837 26.2 18.9081 25.4957C19.6876 24.902 20.2547 24.1512 20.6106 23.2427Z" fill="white"/>
         </svg>
+        <div id="chat-unread-message-icon" class="chat-unread-message-icon hidden"></div>
       </div>
       <div id="chat-popup" class="chat-popup hidden ">
       <div id="chat-header" class="chat-header">
@@ -660,10 +678,12 @@ function chatWidget(){
         if(!this.checkDomen()) return false
         this.init()
         this.messageSound.init()
+        this.iconForUnreadMessage.init()
       }
 
       if(response.action === 'MESSAGE'){
         this.reply(response.answer)
+        this.iconForUnreadMessage.messageCheck()
         globalThis.prints.printsRemove()
       }
     }
@@ -759,6 +779,53 @@ function chatWidget(){
         this.sound.currentTime = 0;
       }
       this.sound.play()
+    }
+  }
+
+  this.iconForUnreadMessage = {
+    init(){
+      this.chatOpenHandler()
+    },
+    messageCheck(){
+      if(!this.closeСheck()) return
+      this.showIcon()
+      this.setNotifLocaleStorage()
+    },
+    closeСheck(){
+      const chat = document.querySelector('#chat-popup')
+      if(!chat) return
+      return chat.classList.contains('hidden') 
+    },
+    showIcon(){
+      const icon = document.querySelector('#chat-unread-message-icon')
+      if(!icon) return
+      icon.classList.remove('hidden')
+    },
+    setNotifLocaleStorage(){
+      localStorage.setItem('unred-message', true)
+    },
+    removeNotifLocaleStorage(){
+      localStorage.removeItem('unred-message')
+    },
+    checkNotifLocaleStorage(){
+      if(localStorage.getItem('unred-message')){
+        this.showIcon()
+      }
+    },
+    hiddenIcon(){
+      const icon = document.querySelector('#chat-unread-message-icon')
+      if(!icon) return
+      icon.classList.add('hidden')
+    },
+    chatOpenHandler(){
+      const btnOpen = document.querySelector('#chat-bubble')
+      if(!btnOpen) return
+      btnOpen.addEventListener('click', ()=>{
+        if(!this.closeСheck()){
+          this.hiddenIcon()
+          this.removeNotifLocaleStorage()
+        } 
+      })
     }
   }
 
