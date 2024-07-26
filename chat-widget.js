@@ -451,7 +451,7 @@ function chatWidget(){
           <div>
             <h3>${this.config.chat_title}</h3>
             <div class="chat-status">
-              <div class="chat-online">Онлайн</div>
+              <div class="chat-online">Online</div>
             </div>
             
           </div>
@@ -466,15 +466,15 @@ function chatWidget(){
         </div>
         <div id="chat-input-container" class="chat-input-container">
           <div class="chat-input-container-inner">
-            <textarea id="chat-input" class="chat-input" placeholder="Написать сообщение..."></textarea>
+            <textarea id="chat-input" class="chat-input" placeholder="Send a message..."></textarea>
             <button id="chat-submit" class="chat-submit">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M12 5V19M12 5L18 11M12 5L6 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </button>
           </div>
-          <a href="https://maia.work/" class="chat-lath" target="_blank">
-            <div class="chat-lath-text">Работает на</div>
+          <a href="https://maia.work/en" class="chat-lath" target="_blank">
+            <div class="chat-lath-text">Powered by</div>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
               <path d="M9.64983 15.9697C13.2766 15.2041 16 11.9653 16 8.08598C16 7.923 15.9952 7.76115 15.9857 7.60056C15.9543 7.83156 15.909 8.05948 15.8494 8.28268C15.2117 10.5925 13.2139 12.5375 11.0186 13.4599C10.1002 13.8416 9.1126 14.0556 8.11912 14.0315C7.52838 14.0214 6.93978 13.9151 6.37509 13.7489C4.47078 13.2182 2.95306 11.7918 2.57385 9.83843C2.33881 8.69225 2.48747 7.4874 3.07331 6.45811C4.29869 4.25507 6.93915 2.81391 9.49857 3.29634C9.94022 3.37224 10.3776 3.49958 10.8079 3.66179C10.431 3.40001 10.0187 3.18004 9.58071 3.00896C6.39819 1.74978 2.28797 4.01929 0.934004 7.02699C0.249478 8.58277 0.250069 9.89558 0.868401 11.4725C1.84679 14.0036 4.64054 15.693 7.28551 16.0279C8.08055 16.1242 8.87488 16.0994 9.64983 15.9697Z" fill="#A9ABBA"/>
               <path d="M6.09525 0.260467C6.96715 0.082143 7.86711 0.0357871 8.76799 0.144969C11.413 0.479865 14.2067 2.1692 15.1851 4.70033C15.8034 6.27727 15.804 7.59007 15.1195 9.14586C13.7655 12.1536 9.65531 14.4231 6.47279 13.1639C6.0348 12.9928 5.62248 12.7728 5.24557 12.5111C5.67589 12.6733 6.11328 12.8006 6.55493 12.8765C9.11435 13.3589 11.7548 11.9178 12.9802 9.71474C13.566 8.68544 13.7147 7.48059 13.4796 6.33442C13.1004 4.38101 11.5827 2.95463 9.67841 2.42395C9.11372 2.25777 8.52512 2.15149 7.93438 2.14138C6.9409 2.11728 5.95329 2.3312 5.03493 2.71299C2.83957 3.63531 0.841786 5.58032 0.204073 7.89017C0.120068 8.20469 0.0645366 8.5286 0.0361951 8.85724C0.012248 8.60341 0 8.34613 0 8.08598C0 4.29811 2.59657 1.12089 6.09525 0.260467Z" fill="#A9ABBA"/>
