@@ -254,6 +254,7 @@ function chatWidget(){
     }
     .chat-message-bot{
       max-width: 80%;
+      min-height: 36px;
       color: rgba(0,0,0,1);
       padding-top: 8px;
       padding-bottom: 8px;
@@ -636,7 +637,7 @@ function chatWidget(){
   },
   this.loadMessageHistory = ()=>{
     this.config.conversation_history.forEach(({author, message}) => {
-      this.chatHistory.append(author === 'MAIA' ? this.getBotMessage(message) : this.getUserMessage(message))
+      this.chatHistory.append(author === 'MAIA' || author === 'AI_AGENT' ? this.getBotMessage(message) : this.getUserMessage(message))
     })
     this.scrollWindowToBottom()
   },
@@ -648,7 +649,7 @@ function chatWidget(){
     this.autoSizeWidth()
   },
 
-  this.openWebSoket = (domain='apidev.maia.work') => {
+  this.openWebSoket = (domain='api.dev.maia.work') => {
     const {appId, apiHash} = document.querySelector('#maia-chat-widget').dataset
     this.ws = new WebSocket(`wss://${domain}/api/v1/webhook/chat_widget?app_id=${appId}&api_hash=${apiHash}`)
     this.webSocketOpenHandler()
@@ -656,11 +657,25 @@ function chatWidget(){
     this.webSocketCloseHandler()
     this.websocketClosure()
   },
-  this.webSocketOpenHandler = ()=>{
+  this.webSocketOpenHandler = async ()=>{
+    const helpers = globalThis.helpers
+    const utm = helpers.getUTMData()
+    const locationData = await helpers.getLocationData()
     this.ws.onopen = (e)=>{
       this.ws.send(JSON.stringify({
         "action": "INIT",
         "session_id": localStorage.getItem('session_id') ? localStorage.getItem('session_id') : undefined,
+        "metadata": {
+          "utm_data": {
+                "campaign": utm?.['utm_campaign'] ? utm?.['utm_campaign'] : '',
+                "source": utm?.['utm_source'] ? utm?.['utm_source'] : '',
+                "medium": utm?.['utm_medium'] ? utm?.['utm_medium'] : '',
+                "search_term": utm?.['utm_search_term'] ? utm?.['utm_search_term'] : '',
+          },
+          "referring_url": helpers.getReferrerURL(),
+          "timestamp": helpers.getTimeStamp(),
+          "location_data": locationData,
+        }
       }))
     }
   },
@@ -787,11 +802,11 @@ function chatWidget(){
       this.chatOpenHandler()
     },
     messageCheck(){
-      if(!this.closeСheck()) return
+      if(!this.closeCheck()) return
       this.showIcon()
       this.setNotifLocaleStorage()
     },
-    closeСheck(){
+    closeCheck(){
       const chat = document.querySelector('#chat-popup')
       if(!chat) return
       return chat.classList.contains('hidden') 
@@ -821,7 +836,7 @@ function chatWidget(){
       const btnOpen = document.querySelector('#chat-bubble')
       if(!btnOpen) return
       btnOpen.addEventListener('click', ()=>{
-        if(!this.closeСheck()){
+        if(!this.closeCheck()){
           this.hiddenIcon()
           this.removeNotifLocaleStorage()
         } 
@@ -835,6 +850,33 @@ function chatWidget(){
       return message.replace(urlRegex, function(url) {
         return '<a href="' + url + '" target="_blank">' + url + '</a>';
       })
+    }
+  }
+
+  this.helpers = {
+    getTimeStamp(){
+      return Date.now()
+    },
+    async getLocationData(){
+      try{
+        const response = await fetch('https://ipwho.is/')
+        const data = await response.json()
+        return data?.city || ''
+      } catch (e){
+        console.error(e)
+        return ''
+      }
+    },
+    getUTMData(){
+      const url = window.location.href
+      const searchParams = Object.fromEntries((new URL(url)).searchParams.entries())
+      Object.keys(searchParams).forEach(paramKey => {
+          if(!paramKey.startsWith('utm_')) delete searchParams[paramKey]
+      })
+      return searchParams
+    },
+    getReferrerURL(){
+      return document.referrer
     }
   }
 }
