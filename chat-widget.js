@@ -768,7 +768,7 @@ function chatWidget(){
                                           <div class="chat-prints-circle chat-prints-circle-second"></div>
                                             <div class="chat-prints-circle chat-prints-circle-third"></div>
                                           </div>
-                                          печатает
+                                          writting
                                       </div>`
       return prints.firstElementChild
     }
