@@ -675,7 +675,7 @@ function chatWidget(){
         }
         this.writingDataToConfig(response)
         
-        if(!this.checkDomen()) return false
+        // if(!this.checkDomen()) return false
         this.init()
         this.messageSound.init()
         this.iconForUnreadMessage.init()
