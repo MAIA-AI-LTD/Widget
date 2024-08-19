@@ -648,7 +648,7 @@ function chatWidget(){
     this.autoSizeWidth()
   },
 
-  this.openWebSoket = (domain='apidev.maia.work') => {
+  this.openWebSoket = (domain='api.dev.maia.work') => {
     const {appId, apiHash} = document.querySelector('#maia-chat-widget').dataset
     this.ws = new WebSocket(`wss://${domain}/api/v1/webhook/chat_widget?app_id=${appId}&api_hash=${apiHash}`)
     this.webSocketOpenHandler()
@@ -841,5 +841,5 @@ function chatWidget(){
 
 (function(){
   const chat = new chatWidget()
-  chat.openWebSoket('api.maia.work')
+  chat.openWebSoket('api.dev.maia.work')
 })();
