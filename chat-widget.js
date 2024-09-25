@@ -636,7 +636,7 @@ function chatWidget(){
   },
   this.loadMessageHistory = ()=>{
     this.config.conversation_history.forEach(({author, message}) => {
-      this.chatHistory.append(author === 'MAIA' || author === 'AI_AGENT' ? this.getBotMessage(message) : this.getUserMessage(message))
+      this.chatHistory.append(author === 'AI_AGENT' ? this.getBotMessage(message) : this.getUserMessage(message))
     })
     this.scrollWindowToBottom()
   },
@@ -649,7 +649,7 @@ function chatWidget(){
   },
 
   this.openWebSoket = (domain='api.dev.maia.work') => {
-    const {appId, apiHash} = document.querySelector('#maia-chat-widget').dataset
+    const {appId, apiHash} = document.querySelector('#aima-chat-widget').dataset
     this.ws = new WebSocket(`wss://${domain}/api/v1/webhook/chat_widget?app_id=${appId}&api_hash=${apiHash}`)
     this.webSocketOpenHandler()
     this.webSocketMessageHandler()    
@@ -782,7 +782,7 @@ function chatWidget(){
     },
     createAudio(){
       this.sound = document.createElement('audio')
-      this.sound.src = `https://cabinet.maia.work/static/audio/message_sound.mp3`
+      this.sound.src = `https://cabinet-backend.goaima.ai/static/audio/message_sound.mp3`
       this.sound.addEventListener('error', ()=>{
         this.sound = null
       })
