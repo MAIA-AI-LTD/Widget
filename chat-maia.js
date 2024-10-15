@@ -40,6 +40,28 @@ function chatWidget(){
     document.head.insertAdjacentHTML('beforeend', '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">');  
     const style = document.createElement('style');
     style.innerHTML = `
+    .chat-widget-container * {
+      font-family: 'Inter', 'Segoe UI';
+      box-sizing: border-box;
+      padding: 0px;
+      margin: 0px;
+      border: none;
+      width: auto;
+      min-width: auto;
+      max-width: auto;
+      min-height: auto;
+      max-height: auto;
+      height: auto;
+      background: none;
+      box-shadow: none;
+      color: initial;
+    }
+    .chat-widget-container textarea:focus{
+      outline: none;
+      border: none;
+      background-color: #F2F3F7;
+      box-shadow: none;
+    }
     .hidden {
       display: none!important;
     }
@@ -49,10 +71,6 @@ function chatWidget(){
       right: 20px;
       flex-direction: column;
       z-index: 1000;
-    }
-    .chat-widget-container * {
-      font-family: 'Inter', 'Segoe UI';
-      box-sizing: border-box;
     }
     .chat-bubble{
       font-size: 30px;
@@ -160,7 +178,7 @@ function chatWidget(){
       flex: 1 1 0%;
       padding: 16px;
       overflow-y: auto;
-      scrollbar-width: thin;
+      scrollbar-width: none;
       scrollbar-color: #888 #F2F3F7;
     }
     .chat-messages::-webkit-scrollbar {
@@ -282,28 +300,6 @@ function chatWidget(){
         border-radius: 0px;
       }
     }
-    .chat-widget-container-theme-1 .chat-header, .chat-widget-container-theme-2 .chat-header{
-      background-color: #192C3D;
-    }
-    .chat-widget-container-theme-1 .chat-header h3, .chat-widget-container-theme-2 .chat-header h3{
-      color: rgba(255,255,255,1);
-    }
-    .chat-widget-container-theme-2 .chat-message-user{
-      background: #4B5563;
-    }
-    .chat-widget-container-theme-3 .chat-header{
-      background-color: white;
-      border-bottom: 1px solid #E5E7EB;
-    }
-    .chat-widget-container-theme-3 .chat-header h3{
-      color: #000;
-    }
-    .chat-widget-container-theme-3 .chat-header button svg path{
-      stroke: #192C3D;
-    }
-    .chat-widget-container-theme-3 .chat-message-user{
-      background: #192C3D;
-    }
     .chat-online{
       font-size: 14px;
       line-height: 20px;
@@ -421,10 +417,10 @@ function chatWidget(){
         100%{
             transform: scale(1);
         }
-    }
-
-
-    
+      }
+      #close-popup svg path {
+        stroke: #FFF;
+      }
     `;
 
     document.head.appendChild(style);
@@ -767,7 +763,7 @@ function chatWidget(){
     },
     createAudio(){
       this.sound = document.createElement('audio')
-      this.sound.src = `https://cabinet.maia.work/static/audio/message_sound.mp3`
+      this.sound.src = `https://b6905acf-5120-4e0c-b3ea-3716bba15c68.selstorage.ru/message_sound.mp3`
       this.sound.addEventListener('error', ()=>{
         this.sound = null
       })
