@@ -18,6 +18,7 @@ function chatWidget(){
     this.checkFirstOpening.init()
     this.chatAutoStart.init()
     this.iconForUnreadMessage.checkNotifLocaleStorage()
+    this.insertMetaTag()
   },
 
 
@@ -831,6 +832,22 @@ function chatWidget(){
           this.removeNotifLocaleStorage()
         } 
       })
+    }
+  }
+
+  this.insertMetaTag = () => {
+    const meta = document.querySelector('meta[name="viewport"]');
+    if(!meta){
+      meta = document.createElement('meta');
+      meta.name = 'viewport';
+      document.getElementsByTagName('head')[0].appendChild(meta);
+    }
+    if(meta.content){
+      if(!meta.content.includes(', user-scalable=no')){
+        meta.content += ', user-scalable=no';
+      } else {
+        meta.content = "width=device-width, initial-scale=1.0, user-scalable=no";
+      }
     }
   }
 
