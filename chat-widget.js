@@ -150,6 +150,10 @@ function chatWidget(){
       user-select: none;
     }
     .chat-header button{
+      min-width: auto !important;
+      width: auto !important;
+      height: auto !important;
+      min-height: auto !important;
       color: rgba(255,255,255,1);
       border-style: none;
       cursor: pointer;
@@ -235,6 +239,10 @@ function chatWidget(){
       border-radius: 6px;
     }
     .chat-submit{
+      min-width: auto !important;
+      width: auto !important;
+      height: auto !important;
+      min-height: auto !important;
       padding: 6px;
       border-radius: 50%;
       width: 36px;
