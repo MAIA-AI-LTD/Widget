@@ -148,10 +148,10 @@ function chatWidget(){
       user-select: none;
     }
     .chat-header #close-popup{
-      min-width: auto !important;
-      width: auto !important;
-      height: auto !important;
-      min-height: auto !important;
+      min-width: 24px !important;
+      width: 24px !important;
+      height: 24px !important;
+      min-height: 24px !important;
       color: rgba(255,255,255,1);
       border-style: none;
       cursor: pointer;
@@ -237,10 +237,10 @@ function chatWidget(){
       border-radius: 6px;
     }
     .chat-submit{
-      min-width: auto !important;
-      width: auto !important;
-      height: auto !important;
-      min-height: auto !important;
+      min-width: 36px !important;
+      width: 36px !important;
+      height: 36px !important;
+      min-height: 36px !important;
       padding: 6px;
       border-radius: 50%;
       width: 36px;
