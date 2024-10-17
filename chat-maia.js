@@ -149,11 +149,11 @@ function chatWidget(){
       color: white;
       user-select: none;
     }
-    .chat-header button{
-      min-width: auto !important;
-      width: auto !important;
-      height: auto !important;
-      min-height: auto !important;
+    .chat-header #close-popup{
+      min-width: 24px !important;
+      width: 24px !important;
+      height: 24px !important;
+      min-height: 24px !important;
       color: rgba(255,255,255,1);
       border-style: none;
       cursor: pointer;
