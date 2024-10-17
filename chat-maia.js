@@ -239,10 +239,10 @@ function chatWidget(){
       border-radius: 6px;
     }
     .chat-submit{
-      min-width: auto !important;
-      width: auto !important;
-      height: auto !important;
-      min-height: auto !important;
+      min-width: 36px !important;
+      width: 36px !important;
+      height: 36px !important;
+      min-height: 36px !important;
       padding: 6px;
       border-radius: 50%;
       width: 36px;
