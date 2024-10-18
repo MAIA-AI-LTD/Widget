@@ -850,7 +850,7 @@ function chatWidget(){
   }
 
   this.insertMetaTag = () => {
-    const meta = document.querySelector('meta[name="viewport"]');
+    let meta = document.querySelector('meta[name="viewport"]');
     if(!meta){
       meta = document.createElement('meta');
       meta.name = 'viewport';
