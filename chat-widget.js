@@ -642,7 +642,7 @@ function chatWidget(){
   },
   this.loadMessageHistory = ()=>{
     this.config.conversation_history.forEach(({author, message}) => {
-      this.chatHistory.append(author === 'AI_AGENT'  ? this.getBotMessage(message) : this.getUserMessage(message))
+      this.chatHistory.append(author === 'USER'  ? this.getUserMessage(message) : this.getBotMessage(message))
     })
     this.scrollWindowToBottom()
   },
