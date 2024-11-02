@@ -653,7 +653,7 @@ function chatWidget(){
     this.autoSizeWidth()
   },
 
-  this.openWebSoket = (domain='api.dev.maia.work') => {
+  this.openWebSoket = (domain='api.dev.goaima.ai') => {
     const {appId, apiHash} = document.querySelector('#aima-chat-widget').dataset
     this.ws = new WebSocket(`wss://${domain}/api/v1/webhook/chat_widget?app_id=${appId}&api_hash=${apiHash}`)
     this.webSocketOpenHandler()
@@ -666,6 +666,7 @@ function chatWidget(){
     const utm = helpers.getUTMData()
     const locationData = await helpers.getLocationData()
     this.ws.onopen = (e)=>{
+      console.warn('WS is open')
       this.ws.send(JSON.stringify({
         "action": "INIT",
         "session_id": localStorage.getItem('session_id') ? localStorage.getItem('session_id') : undefined,
@@ -904,5 +905,5 @@ function chatWidget(){
 
 (function(){
   const chat = new chatWidget()
-  chat.openWebSoket('api.maia.work')
+  chat.openWebSoket('api.goaima.ai')
 })();
