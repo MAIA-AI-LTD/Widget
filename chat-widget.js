@@ -653,7 +653,8 @@ function chatWidget(){
     this.autoSizeWidth()
   },
 
-  this.openWebSoket = (domain='api.dev.goaima.ai') => {
+  this.openWebSoket = async (domain='api.dev.goaima.ai') => {
+    await this.locationData.init()
     const {appId, apiHash} = document.querySelector('#aima-chat-widget').dataset
     this.ws = new WebSocket(`wss://${domain}/api/v1/webhook/chat_widget?app_id=${appId}&api_hash=${apiHash}`)
     this.webSocketOpenHandler()
@@ -664,9 +665,8 @@ function chatWidget(){
   this.webSocketOpenHandler = async ()=>{
     const helpers = globalThis.helpers
     const utm = helpers.getUTMData()
-    const locationData = await helpers.getLocationData()
+    const locationData = this.locationData.data;
     this.ws.onopen = (e)=>{
-      console.warn('WS is open')
       this.ws.send(JSON.stringify({
         "action": "INIT",
         "session_id": localStorage.getItem('session_id') ? localStorage.getItem('session_id') : undefined,
@@ -696,7 +696,7 @@ function chatWidget(){
         }
         this.writingDataToConfig(response)
         
-        if(!this.checkDomen()) return false
+        // if(!this.checkDomen()) return false
         this.init()
         this.messageSound.init()
         this.iconForUnreadMessage.init()
@@ -875,10 +875,13 @@ function chatWidget(){
     }
   }
 
-  this.helpers = {
-    getTimeStamp(){
-      return Date.now()
+  this.locationData = {
+    async init(){
+      this.data = await this.getLocationData()
     },
+
+    data: '',
+
     async getLocationData(){
       try{
         const response = await fetch('https://ipwho.is/')
@@ -888,6 +891,12 @@ function chatWidget(){
         console.error(e)
         return ''
       }
+    },
+  }
+
+  this.helpers = {
+    getTimeStamp(){
+      return Date.now()
     },
     getUTMData(){
       const url = window.location.href
