@@ -675,7 +675,7 @@ function chatWidget(){
                 "campaign": utm?.['utm_campaign'] ? utm?.['utm_campaign'] : '',
                 "source": utm?.['utm_source'] ? utm?.['utm_source'] : '',
                 "medium": utm?.['utm_medium'] ? utm?.['utm_medium'] : '',
-                "search_term": utm?.['utm_search_term'] ? utm?.['utm_search_term'] : '',
+                "search_term": utm?.['utm_term'] ? utm?.['utm_term'] : '',
                 "original_source": utm?.['utm_original_source'] ? utm?.['utm_original_source'] : '',
           },
           "referring_url": helpers.getReferrerURL(),
