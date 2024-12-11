@@ -662,10 +662,15 @@ function chatWidget(){
     this.websocketClosure()
   },
   this.webSocketOpenHandler = ()=>{
+    const helpers = globalThis.helpers
+    const phone = helpers.getPhoneNumber()
     this.ws.onopen = (e)=>{
       this.ws.send(JSON.stringify({
         "action": "INIT",
         "session_id": localStorage.getItem('session_id') ? localStorage.getItem('session_id') : undefined,
+        "metadata": {
+          "phone": phone ? phone : null
+        }
       }))
     }
   },
@@ -857,6 +862,22 @@ function chatWidget(){
         return '<a href="' + url + '" target="_blank">' + url + '</a>';
       })
     }
+  }
+
+  this.helpers = {
+    getParams(){
+      const url = window.location.href
+      const searchParams = Object.fromEntries((new URL(url)).searchParams.entries())
+      
+      return searchParams
+    },
+
+    getPhoneNumber() {
+      const script = document.querySelector('#maia-chat-widget')
+      if(!script) return ''
+      const phone = script.dataset.phone
+      return phone && phone !== "null" ? phone : ''
+    },
   }
 }
 
