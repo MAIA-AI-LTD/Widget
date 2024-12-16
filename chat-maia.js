@@ -10,32 +10,12 @@ function chatWidget(){
     this.sendingToChat()
     this.sendingUsingEnter()
     this.textareaCancelNewlineOn()
-    this.openChat()
-    this.closeChat()
     this.textareaAutoSizeWidth()
     this.resizeChatWidth()
     this.textareaAutoHeight()
-    this.checkFirstOpening.init()
-    this.chatAutoStart.init()
     this.iconForUnreadMessage.checkNotifLocaleStorage()
     this.insertMetaTag()
   },
-
-
-  this.checkFirstOpening = {
-    init(){
-      this.setHandler()
-    },
-    isOpened: false,
-    setHandler(){
-      globalThis.chatBubble.addEventListener('click', this.handler)
-    },
-    handler(){
-      globalThis.checkFirstOpening.isOpened = true
-      this.removeEventListener('click', globalThis.checkFirstOpening.handler)
-    }
-  }
-
 
   this.insertChat = (colorSettings)=>{
     document.head.insertAdjacentHTML('beforeend', '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">');  
@@ -111,8 +91,19 @@ function chatWidget(){
       animation-duration: .2s;
     }
     .chat-popup{
-      height: 70vh;
-      max-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      border-radius: 0;
+      max-width: initial;
+      min-width: initial;
       transition: all 0.3s;
       overflow: hidden;
       transition-property: all;
@@ -120,26 +111,15 @@ function chatWidget(){
       transition-duration: 150ms;
       box-shadow: 0 0 #0000, 0 0 #0000, 0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      border-radius: 6px;
       font-size: 14px;
       line-height: 20px;
       background-color: rgba(255,255,255, 1);
-      width: 384px;
-      max-width: 384px;
-      min-width: 384px;
-      display: flex;
-      flex-direction: column;
-      position: absolute;
-      bottom: 80px;
-      right: 0;
     }
     .chat-header{
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 12px 16px;
-      border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
       background-color: ${this.config?.header_color || 'gray'}
     }
     .chat-header h3{
@@ -149,35 +129,6 @@ function chatWidget(){
       margin: 0;
       color: white;
       user-select: none;
-    }
-    .chat-header #close-popup{
-      min-width: 24px !important;
-      width: 24px !important;
-      height: 24px !important;
-      min-height: 24px !important;
-      color: rgba(255,255,255,1);
-      border-style: none;
-      cursor: pointer;
-      background-color: transparent;
-      background-image: none;
-      text-transform: none;
-      -webkit-appearance: button;
-      font-family: inherit;
-      font-size: 100%;
-      margin: 0;
-      padding: 0px;
-      text-indent: 0px;
-      text-shadow: none;
-      display: flex;
-      align-items:center;
-      justify-content: center
-      letter-spacing: normal;
-      word-spacing: normal;
-      text-rendering: auto;
-    }
-    .chat-header button svg{
-      width: 24px;
-      height: 24px;
     }
     .chat-messages{
       flex: 1 1 0%;
@@ -305,9 +256,6 @@ function chatWidget(){
         max-width: initial;
         min-width: initial;
       }
-      .chat-header{
-        border-radius: 0px;
-      }
     }
     .chat-online{
       font-size: 14px;
@@ -427,9 +375,6 @@ function chatWidget(){
             transform: scale(1);
         }
       }
-      #close-popup svg path {
-        stroke: #FFF;
-      }
     `;
 
     document.head.appendChild(style);
@@ -450,7 +395,7 @@ function chatWidget(){
         </svg>
         <div id="chat-unread-message-icon" class="chat-unread-message-icon hidden"></div>
       </div>
-      <div id="chat-popup" class="chat-popup hidden ">
+      <div id="chat-popup" class="chat-popup">
       <div id="chat-header" class="chat-header">
           <div>
             <h3>${this.config.chat_title}</h3>
@@ -459,11 +404,6 @@ function chatWidget(){
             </div>
             
           </div>
-          <button id="close-popup">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
         </div>
         <div id="chat-messages" class="chat-messages">
           <div id="chat-history" class="chat-history"></div>
@@ -497,7 +437,6 @@ function chatWidget(){
     this.chatMessages = document.getElementById('chat-messages')
     this.chatBubble = document.getElementById('chat-bubble')
     this.chatPopup = document.getElementById('chat-popup')
-    this.closePopup = document.getElementById('close-popup')
     this.chatHistory = document.getElementById('chat-history')
   },
   this.autoSizeWidth = ()=>{
@@ -570,40 +509,9 @@ function chatWidget(){
       }
     })
   },
-  this.openChat = ()=>{
-    this.chatBubble.addEventListener('click', () => {
-      this.togglePopup();
-    });
-  },
-  this.closeChat = ()=>{
-    this.closePopup.addEventListener('click', () => {
-      this.togglePopup();
-    });
-  },
-  this.togglePopup = ()=>{
-    this.chatPopup.classList.toggle('hidden');
-  },
   this.scrollWindowToBottom = ()=>{
-    this.chatPopup.classList.remove('hidden')
     this.chatMessages.scrollTop = this.chatMessages.scrollHeight
-    this.chatPopup.classList.add('hidden')
   },
-
-  this.chatAutoStart = {
-    init(){
-      this.setTimeoutAutoStart()
-    },
-    setTimeoutAutoStart(){
-      if(globalThis.config?.seconds_to_autostart){
-        setTimeout(()=>{
-          if(globalThis.checkFirstOpening.isOpened) return
-          if(globalThis.chatPopup.classList.contains('hidden')){
-            globalThis.chatBubble.click()
-          }
-        }, globalThis.config?.seconds_to_autostart * 1000)
-      }
-    }
-  }
 
   this.userMessageAppend = (message)=>{
       const messageElement = this.getUserMessage(message)
